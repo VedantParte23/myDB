@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include "db.h"
 
+#define SIZE 100
+
 
 struct student
 {
@@ -15,7 +17,7 @@ struct student
 
 int main()
 {
-    char input[100];
+    char input[SIZE+1];
 
     while (1)
     {
@@ -42,34 +44,39 @@ int main()
            {
                system("clear");
            }
+           else if (strcmp(command, "ls") == 0)
+           {
+               printf("The files are: \n");
+           }
            else if (strcmp(command, "man") == 0)
            {
                printf("\n'create' 'db_name': create database\n");
-               printf("'update' 'db_name': update database\n");
+               printf("'write' 'db_name': write in database\n");
                printf("'read' 'db_name': read database\n");
                printf("'delete' 'db_name': delete database\n");
+               printf("'ls': list the file in directory\n");
                printf("'dbcls': clear the screen\n");
-               print("'exit': Exit the program\n");
+               printf("'exit': Exit the program\n");
            }
            else
            {
-               printf("\n Command doesn't exist\n");
+               printf("\nadd a filename/argument to the command\n");
            }
         }
         else if(strcmp(command, "create") == 0){
-            printf("\nFile created");
+            printf("\nDatabase created\n");
         }
-        else if (strcmp(command, "update") == 0)
+        else if (strcmp(command, "write") == 0)
         {
-            printf("\nFile update");
+            printf("\nUpdate Database\n");
         }
         else if (strcmp(command, "read") == 0)
         {
-            printf("\nread file");
+            printf("\nRead Database\n");
         }
         else if (strcmp(command, "delete") == 0)
         {
-            printf("\ndelete file");
+            printf("\nDatabase Deleted\n");
         }
 
            
@@ -78,11 +85,11 @@ int main()
         
 
 
-        for (size_t i = 0; i < 99; i++)
+        for (size_t i = 0; i < 100; i++)
         {
             input[i] = '0';
         }
-        input[99] = '\0';
+        input[100] = '\0';
 
 
         
