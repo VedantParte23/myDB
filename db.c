@@ -1,6 +1,17 @@
+#define _DEFAULT_SOURCE
+#include <dirent.h>
 #include <stdio.h>
 #include <string.h>
 #define SIZE_INPUT 125
+
+typedef struct 
+{
+    char name[50];
+    int id;
+    char data[200];
+}info;
+
+
 
 void create_file(char *file)
 {
@@ -8,11 +19,11 @@ void create_file(char *file)
 
     if (fp == NULL)
     {
-        fprintf(stderr, "Erorr unable to create file",file);
+        fprintf(stderr, "Erorr unable to create file %s\n",file);
         return;
     }
 
-    printf("File %s was created\n", file);
+    printf("DB %s was created\n", file);
     fclose(fp);
 }
 
@@ -22,22 +33,23 @@ void write_file(char *file)
 
     if (fp == NULL)
     {
-        fprintf(stderr, "File not found", file);
+        fprintf(stderr, "File not found %s\n", file);
+        return;
     }
     char data_input[SIZE_INPUT];
-    fgets(data_input,sizeof(data_input),file);
+    fgets(data_input,sizeof(data_input),stdin);
     
 
-    fprintf(file,"%s",data_input);
+    fprintf(fp,"%s",data_input);
 
     printf("Data written to %s\n",file);
 
     //structre cha format madhe data input karay lagnar
-
+    fclose(fp);
 
 }
 
-update_file(){
+void update_file(){
     //temprary file skikay lagnar 
 }
 
@@ -48,7 +60,7 @@ void read_file(char *file)
 
     if (fp == NULL)
     {
-        fprintf(stderr, "File not found",file);
+        fprintf(stderr, "File not found %s \n",file);
         return;
     }
     
@@ -74,7 +86,38 @@ void delete_file(char *file)
         printf("Database succesfully deleted\n");
     }
     else{
-        fprintf(stderr, "Unable to delete/File not found\n");
+        fprintf(stderr, "Unable to delete/File not found %s\n",file);
     }
 
+}
+
+
+void list_files(){
+      
+
+    DIR *directory;
+    struct dirent *entry;
+
+    directory = opendir(".");
+
+    if (directory == NULL)
+    {
+        printf("Error opening directory");
+        return ;
+    }
+
+    while ((entry = readdir(directory)) != NULL)
+    {
+        if (entry->d_type == DT_REG)
+        {
+            printf("Files: %s",entry->d_name);
+        }
+        
+    }
+    
+    if (closedir(directory) == -1)
+    {
+        printf("Error closing the directory");
+        return ;
+    }
 }
