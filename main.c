@@ -1,19 +1,21 @@
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "db.h"
 
 #define SIZE 100
 
 int main(){
 
+    
     char input[SIZE + 1];
 
     while (1)
     {
         printf("myDB> ");
         fgets(input, 100, stdin);
+        fflush(stdout);
 
         char *command = strtok(input, " \n");
         char *argument = strtok(NULL, " \n");
@@ -59,9 +61,45 @@ int main(){
         {
             create_file(argument);
         }
+        else if (strcmp(command, "update") == 0){
+            //update code will go there also need to wrtie in in man
+            continue;
+        }
         else if (strcmp(command, "write") == 0)
         {
-            write_file(argument);
+            int num_oargs, id_input;
+            Info temp;
+            printf("\nHow many peoples information are you going to fill: ");
+            if(scanf("%d",&num_oargs) != 1){
+                fprintf(stderr,"Error reading input. please use proper format");
+                while(getchar() != '\n');
+                continue;
+            }
+            getchar();
+            
+
+
+            for (int i = 0; i < num_oargs; i++)
+            {
+                printf("Enter name: ");
+                fgets(temp.name, 50, stdin);
+                temp.name[strcspn(temp.name, "\n")] = '\0';//removes \n. continious input ghetay
+
+                printf("Enter the id of the person: ");
+                scanf("%d", &temp.id);
+                getchar();
+
+                printf("Enter information about the person: ");
+                fgets(temp.data,200, stdin);
+                temp.data[strcspn(temp.name,"\n")] = '\0';
+
+                write_file(argument, &temp, 1);
+
+            }
+            
+
+          
+
         }
         else if (strcmp(command, "read") == 0)
         {

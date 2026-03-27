@@ -2,14 +2,15 @@
 #include <dirent.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+#include<stdlib.h>
+#include "db.h"
 #define SIZE_INPUT 125
 
-typedef struct 
-{
-    char name[50];
-    int id;
-    char data[200];
-}info;
+
+
+
+
 
 
 
@@ -27,34 +28,34 @@ void create_file(char *file)
     fclose(fp);
 }
 
-void write_file(char *file)
+bool write_file(char *filename , Info *data, int total)
 {
-    FILE *fp = fopen(file,"ab");
+    FILE *fp = fopen(filename,"ab");
 
     if (fp == NULL)
     {
-        fprintf(stderr, "File not found %s\n", file);
-        return;
+        fprintf(stderr, "Error opening file %s\n",filename);
+        return false;
     }
-    char data_input[SIZE_INPUT];
-    fgets(data_input,sizeof(data_input),stdin);
     
+    int items = fwrite(data,sizeof(Info),total,fp);
 
-    fprintf(fp,"%s",data_input);
-
-    printf("Data written to %s\n",file);
-
-    //structre cha format madhe data input karay lagnar
+    if (items != total)
+    {
+        fprintf(stderr, "Error");
+    }
+    
+    printf("Data succesfully written to file: %s",filename);
     fclose(fp);
+    return true;
 
 }
 
-void update_file(){
-    //temprary file skikay lagnar 
+void update_file(char *file){
+    printf("updated");
 }
 
-void read_file(char *file)
-{
+void read_file(char *file){
 
     FILE *fp = fopen(file, "rb");
 
@@ -77,6 +78,7 @@ void read_file(char *file)
     
 
 }
+
 void delete_file(char *file)
 {
     //errono shikay lagnar error specify karay
