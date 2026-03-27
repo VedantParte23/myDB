@@ -9,11 +9,6 @@
 
 
 
-
-
-
-
-
 void create_file(char *file)
 {
     FILE *fp = fopen(file, "ab");
@@ -24,17 +19,19 @@ void create_file(char *file)
         return;
     }
 
-    printf("DB %s was created\n", file);
+    printf("%s was created\n", file);
     fclose(fp);
 }
 
-bool write_file(char *filename , Info *data, int total)
+
+
+bool write_file(char *file , Info *data, int total)
 {
-    FILE *fp = fopen(filename,"ab");
+    FILE *fp = fopen(file,"ab");
 
     if (fp == NULL)
     {
-        fprintf(stderr, "Error opening file %s\n",filename);
+        fprintf(stderr, "Error opening file %s\n",file);
         return false;
     }
     
@@ -45,17 +42,40 @@ bool write_file(char *filename , Info *data, int total)
         fprintf(stderr, "Error");
     }
     
-    printf("Data succesfully written to file: %s",filename);
+    printf("\nData succesfully written to file: %s\n",file);
     fclose(fp);
     return true;
 
 }
 
+
+
 void update_file(char *file){
+
+    FILE *fp;
+    fp = fopen(file,"rb+");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Error opening file %s\n",file);
+    }
+    int id;
+    printf("Enter id which need to be updated: ");
+    scanf("%d",&id);
+
+    int ip;
+    while (0)
+    {
+        printf("this is impossible to print");
+    }
+    
+
+
+
     printf("updated");
 }
 
-void read_file(char *file){
+void read_file(char *file, Info *data){
 
     FILE *fp = fopen(file, "rb");
 
@@ -65,17 +85,16 @@ void read_file(char *file){
         return;
     }
     
-    char ch;
-    printf("Contents of %s: ",file);
-    printf("\n");
-
-    while ((ch = fgetc(fp)) != EOF)
+    while (fread(data,sizeof(Info),1,fp) == 1)
     {
-        putchar(ch);
+        printf("\n-------------------------\n");
+        printf("Name: %s\n",data->name);
+        printf("id: %d\n",data->id);
+        printf("Info: %s",data->data);
     }
+    
 
     fclose(fp);
-    
 
 }
 
@@ -112,7 +131,7 @@ void list_files(){
     {
         if (entry->d_type == DT_REG)
         {
-            printf("Files: %s",entry->d_name);
+            printf("Files: %s\n",entry->d_name);
         }
         
     }

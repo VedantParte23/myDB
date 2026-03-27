@@ -6,12 +6,13 @@
 
 #define SIZE 100
 
-int main(){
-
-    
+int main()
+{
+    printf("|=== MY DATABASE ===|\n");
+    printf("type 'man' for command list\n");
     char input[SIZE + 1];
 
-    while (1)
+    while (1)   
     {
         printf("myDB> ");
         fgets(input, 100, stdin);
@@ -29,7 +30,7 @@ int main(){
         {
             if (strcmp(command, "exit") == 0)
             {
-                printf("\nExited succesfully");
+                printf("\nExited succesfully\n\n");
                 return 0;
             }
 
@@ -44,66 +45,71 @@ int main(){
             }
             else if (strcmp(command, "man") == 0)
             {
-                printf("\n'create' 'db_name': create database\n");
-                printf("'write' 'db_name': write in database\n");
-                printf("'read' 'db_name': read database\n");
-                printf("'delete' 'db_name': delete database\n");
+                printf("'create' 'db_name.db': create database\n");
+                printf("'write' 'db_name.db': write in database\n");
+                printf("'read' 'db_name.db': read database\n");
+                printf("'delete' 'db_name.db': delete database\n");
                 printf("'lf': list the file in directory\n");
                 printf("'dbcls': clear the screen\n");
-                printf("'exit': Exit the program\n");
+                printf("'exit': Exit the program\n\n");
             }
             else
             {
-                printf("\nAdd a filename/argument to the command\n");
+                printf("\nNO such command exists\n");
             }
         }
         else if (strcmp(command, "create") == 0)
         {
             create_file(argument);
         }
-        else if (strcmp(command, "update") == 0){
-            //update code will go there also need to wrtie in in man
-            continue;
+        else if (strcmp(command, "update") == 0)
+        {
+            // update code will go there also need to wrtie in in man
+            
         }
         else if (strcmp(command, "write") == 0)
         {
             int num_oargs, id_input;
             Info temp;
             printf("\nHow many peoples information are you going to fill: ");
-            if(scanf("%d",&num_oargs) != 1){
-                fprintf(stderr,"Error reading input. please use proper format");
-                while(getchar() != '\n');
+            if (scanf("%d", &num_oargs) != 1)
+            {
+                fprintf(stderr, "Error reading input. please use proper format");
+                while (getchar() != '\n')
+                    ;
                 continue;
             }
             getchar();
-            
-
 
             for (int i = 0; i < num_oargs; i++)
             {
-                printf("Enter name: ");
-                fgets(temp.name, 50, stdin);
-                temp.name[strcspn(temp.name, "\n")] = '\0';//removes \n. continious input ghetay
-
                 printf("Enter the id of the person: ");
-                scanf("%d", &temp.id);
+                if (scanf("%d", &temp.id) != 1)
+                {
+                    fprintf(stderr, "Error reading input. please use proper formant");
+                    while (getchar() != '\n');
+                    i--;
+                    continue;
+                }
                 getchar();
 
+
+                printf("Enter name: ");
+                fgets(temp.name, 50, stdin);
+                temp.name[strcspn(temp.name, "\n")] = '\0'; // removes \n. continious input ghetay
+
+
                 printf("Enter information about the person: ");
-                fgets(temp.data,200, stdin);
-                temp.data[strcspn(temp.name,"\n")] = '\0';
+                fgets(temp.data, 200, stdin);
+                temp.data[strcspn(temp.data, "\n")] = '\0';
 
                 write_file(argument, &temp, 1);
-
             }
-            
-
-          
-
         }
         else if (strcmp(command, "read") == 0)
         {
-            read_file(argument);
+            Info temp;
+            read_file(argument, &temp);
         }
         else if (strcmp(command, "delete") == 0)
         {
