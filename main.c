@@ -12,7 +12,7 @@ int main()
     printf("type 'man' for command list\n");
     char input[SIZE + 1];
 
-    while (1)   
+    while (1)
     {
         printf("myDB> ");
         fgets(input, 100, stdin);
@@ -48,6 +48,7 @@ int main()
                 printf("'create' 'db_name.db': create database\n");
                 printf("'write' 'db_name.db': write in database\n");
                 printf("'read' 'db_name.db': read database\n");
+                printf("'update' 'db_name.db': update a section by id");
                 printf("'delete' 'db_name.db': delete database\n");
                 printf("'lf': list the file in directory\n");
                 printf("'dbcls': clear the screen\n");
@@ -64,8 +65,7 @@ int main()
         }
         else if (strcmp(command, "update") == 0)
         {
-            // update code will go there also need to wrtie in in man
-            
+            update_file(argument);
         }
         else if (strcmp(command, "write") == 0)
         {
@@ -75,29 +75,27 @@ int main()
             if (scanf("%d", &num_oargs) != 1)
             {
                 fprintf(stderr, "Error reading input. please use proper format");
-                while (getchar() != '\n')
-                    ;
+                while (getchar() != '\n');
                 continue;
             }
             getchar();
+            
 
             for (int i = 0; i < num_oargs; i++)
             {
                 printf("Enter the id of the person: ");
                 if (scanf("%d", &temp.id) != 1)
                 {
-                    fprintf(stderr, "Error reading input. please use proper formant");
+                    fprintf(stderr, "Error reading input. please use proper formant\n");
                     while (getchar() != '\n');
                     i--;
                     continue;
                 }
                 getchar();
 
-
                 printf("Enter name: ");
                 fgets(temp.name, 50, stdin);
                 temp.name[strcspn(temp.name, "\n")] = '\0'; // removes \n. continious input ghetay
-
 
                 printf("Enter information about the person: ");
                 fgets(temp.data, 200, stdin);
